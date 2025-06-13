@@ -1,0 +1,63 @@
+<div id="config-view">
+    <h2>Configuração do experimento</h2>
+    <div class="config-section">
+        <h3>Configuração da primeira instrução</h3>
+
+        <!-- Edição da primeira instrução -->
+        <div>
+            <label for="first-instruction">Instruções:</label>
+            <textarea 
+                name="first-instruction" 
+                id="first-instruction" 
+                rows="8"
+                placeholder="Digite aqui o texto da primeira instrução"
+                ></textarea>
+        </div>
+
+        <!-- Tempo para liberar o botão de prosseguir -->
+        <div>
+            <label for="button-can-press-time">Temporizador de todos os botões:</label>
+            <input
+                type="number"
+                name="button-can-press-time" 
+                id="button-can-press-time" 
+                placeholder="3"
+                />
+        </div>
+
+
+    </div>
+
+    <div class="config-section">
+        <h3>Configuração da seleção de fotos</h3>
+
+        <!-- Edição da primeira instrução -->
+        <div>
+            <label for="select-photos-instruction">Instrução principal</label>
+            <textarea 
+                name="select-photos-instruction" 
+                id="select-photos-instruction" 
+                rows="8"
+                placeholder="Digite a instrução para selecionar as fotos aqui (máximo um parágrafo)"
+                ></textarea>
+        </div>
+
+        <div>
+            <label for="total-photos-number">Número total de fotos</label>
+            <input type="number" name="total-photos-number" id="total-photos-number">
+        </div>
+
+        <div>
+            <label for="select-photos-number">Número total de fotos a serem selecionadas</label>
+            <input type="number" name="select-photos-number" id="select-photos-number">
+        </div>
+
+    </div>
+
+    <!-- Botões de ação -->
+     <div>
+        <button id="save-button">Salvar</button>
+        <button id="reset-button">Resetar</button>
+        <button id="back-button">Voltar</button>
+     </div>
+</div>
