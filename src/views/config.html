@@ -1,5 +1,6 @@
-<div id="config-view">
+<div style="justify-items: center" id="config-view">
     <h2>Configuração do experimento</h2>
+
     <div class="config-section">
         <h3>Configuração da primeira instrução</h3>
 
@@ -24,14 +25,12 @@
                 placeholder="3"
                 />
         </div>
-
-
     </div>
 
     <div class="config-section">
         <h3>Configuração da seleção de fotos</h3>
 
-        <!-- Edição da primeira instrução -->
+        <!-- Edição da Página de Escolha de Fotos -->
         <div>
             <label for="select-photos-instruction">Instrução principal</label>
             <textarea 
@@ -50,6 +49,91 @@
         <div>
             <label for="select-photos-number">Número total de fotos a serem selecionadas</label>
             <input type="number" name="select-photos-number" id="select-photos-number">
+        </div>
+
+    </div>
+
+    <div class="config-section">
+        <h3>Configuração do ranqueamento de fotos</h3>
+        <div>
+            <label for="rate-photos-instruction">Instrução principal</label>
+            <textarea 
+                name="rate-photos-instruction" 
+                id="rate-photos-instruction" 
+                rows="8"
+                placeholder="Digite a instrução para ranquear as fotos aqui (máximo um parágrafo)"
+                ></textarea>
+        </div>
+    </div>
+
+    <div class="config-section">
+        <h3>Configuração da instrução do questionário</h3>
+
+        <div>
+            <label for="questionary-instruction">Instruções:</label>
+            <textarea 
+                name="questionary-instruction" 
+                id="questionary-instruction" 
+                rows="8"
+                placeholder="Digite aqui o texto da primeira instrução"
+                ></textarea>
+        </div>
+
+    </div>
+
+    <div class="config-section">
+        <h3>Configuração da tela do questionário</h3>
+
+        <div>
+            <label for="choice-questionary-instruction">Instruções:</label>
+            <textarea 
+                name="choice-questionary-instruction"" 
+                id="choice-questionary-instruction"" 
+                rows="8"
+                placeholder="Digite aqui o texto da primeira instrução"
+                ></textarea>
+        </div>
+        
+        <div>
+            <label for="min-choice-text">Opção com menor valor:</label>
+            <textarea 
+                name="min-choice-text" 
+                id="min-choice-text"
+                rows="8"
+                placeholder="Digite aqui a opção que terá o menor valor"
+            ></textarea>
+        </div>
+
+        <div>
+            <label for="max-choice-text">Opção com maior valor:</label>
+            <textarea 
+                name="max-choice-text" 
+                id="max-choice-text"
+                rows="8"
+                placeholder="Digite aqui a opção que terá o maior valor"
+            ></textarea>
+        </div>
+
+        <div>
+            <label>Fotos que irão para o questionário (índices das fotos ranqueadas):</label>
+            <div id="photos-to-questionary-container">
+                <!-- Os campos serão adicionados dinamicamente aqui -->
+            </div>
+            <div class="photos-list-controls">
+                <button type="button" id="add-photo-index">+ Adicionar Foto</button>
+                <small class="help-text">Adicione os índices das fotos (0 = primeira foto ranqueada, 1 = segunda, etc.)</small>
+            </div>
+        </div>
+
+        <div>
+            <label>Valores de intervalo para o questionário:</label>
+            <div id="interval-values-container">
+                <!-- Os campos serão adicionados dinamicamente aqui -->
+            </div>
+            <div class="photos-list-controls">
+                <button type="button" id="add-interval-value">+ Adicionar Valor</button>
+                <small class="help-text">Adicione os valores de intervalo que serão usados no questionário</small>
+            </div>
         </div>
 
     </div>

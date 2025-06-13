@@ -1,0 +1,88 @@
+<style>
+    /* Adicione este CSS ao seu arquivo de estilos */
+#photo-rating-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    min-height: 200px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.photo-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: move;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.photo-item:hover {
+    border-color: #007bff;
+    box-shadow: 0 2px 8px rgba(0,123,255,0.3);
+}
+
+.photo-item.dragging {
+    opacity: 0.5;
+    transform: rotate(5deg);
+}
+
+.photo-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 15px;
+}
+
+.position-indicator {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    background: #007bff;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+#submit-rating {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#submit-rating:hover {
+    background: #218838;
+}
+
+#submit-rating:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+</style>
+<div>
+    <div>
+        <p id="instruction-rate-photos">Instrução ficará aqui</p>
+    </div>
+
+    <div id="photo-rating-container"></div>
+
+    <button id="submit-rating" type="button">Prosseguir</button>
+</div>

@@ -9,6 +9,13 @@ const DEFAULT_CONFIG = {
     selectPhotosInstruction: "Instrução para selecionar fotos",
     totalPhotosNumber: 20,
     selectPhotosNumber: 10,
+    ratePhotosInstruction: "Instrução para ranquear as fotos",
+    questionaryInstruction: "Instrução para o questionário",
+    choiceQuestionaryInstruction: "Instrução para completar o questionário",
+    minChoice: "Escolha mínima",
+    maxChoice: "Escolha máxima",
+    photosToQuestionary: [0, 4, 9],
+    intervalValues: [1, 2, 3, 4, 5],
 };
 
 // Caminho para o arquivo de configurações

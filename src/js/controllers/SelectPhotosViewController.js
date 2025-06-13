@@ -15,7 +15,7 @@ class SelectPhotosViewController extends BaseViewController {
         this.totalPhotosNumber = config.totalPhotosNumber;
         this.totalPhotosNumberToSelect = config.selectPhotosNumber;
 
-        this.getElementById('select-photos-instruction').innerText = config.selectPhotosInstruction;
+        this.getElementById('select-photos-instruction').innerHTML = config.selectPhotosInstruction;
         this.updateSelectedCounter();
 
         await this.generatePhotos();
@@ -31,7 +31,7 @@ class SelectPhotosViewController extends BaseViewController {
             this.photos.push({
                 id: i,
                 // Usando placeholder images - substitua pelos caminhos reais das suas fotos
-                src: `https://picsum.photos/200/150?random=${i}`,
+                src: `src/media/${i}.jpg`,
                 alt: `Foto ${i}`,
                 selected: false
             });
@@ -128,25 +128,22 @@ class SelectPhotosViewController extends BaseViewController {
 
     updateConfirmButton() {
         const confirmButton = this.getElementById('select-photos-button');
-        const isSelectionComplete = this.selectedPhotosNumber === this.totalPhotosNumberToSelect;
+        const isSelectionComplete = this.selectedPhotosNumber == this.totalPhotosNumberToSelect;
 
         confirmButton.disabled = !isSelectionComplete;
         confirmButton.innerText = isSelectionComplete ? 'Confirm Selection' : `Selecione ${this.totalPhotosNumberToSelect - this.selectedPhotosNumber} foto(s)`;;
     }
 
-    confirSelection() {
-        if (this.selectedPhotosNumber !== this.totalPhotosNumberToSelect) {
+    confirmSelection() {
+        if (this.selectedPhotosNumber != this.totalPhotosNumberToSelect) {
             alert(`Por favor, selecione exatamente ${this.totalPhotosNumberToSelect} fotos.`)
             return;
         }
 
         const selectedPhotosData = this.photos.filter(photo => photo.selected);
 
-        this.gameController.setSelectedPhotos(selectedPhotosData);
-        console.log('Fotos selecionadas: ', selectedPhotosData);
-
         // Navegar para próxima tela quando necessário
-        // this.gameController.(nextScreen('Próxima tela'));
+        this.gameController.nextScreen(constants.ratePhotos, { selectedPhotos: selectedPhotosData });
     }
 
     resetSelection() {
