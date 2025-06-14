@@ -1,4 +1,28 @@
+<style>
+    p {
+        font-family: 'Arial', sans-serif;
+        font-size: 18px;
+        color: #2c3e50;
+        text-align: center;
+        margin: 20px 0;
+        padding: 15px;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #3498db;
+        line-height: 1.6;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    p:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);        
+    }
+</style>
+
 <div>
     <p id="thanks-message"></p>
-    <button type="button" id="finish-button">Finalizar</button>
+    <div class="action-buttons">
+        <button type="button" id="finish-button" class="green-button">Finalizar</button>
+    </div>
 </div>

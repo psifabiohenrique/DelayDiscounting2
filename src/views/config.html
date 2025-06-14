@@ -1,4 +1,69 @@
-<div style="justify-items: center" id="config-view">
+<style>
+    #config-view {
+        display: grid;
+        justify-items: center;
+        background-color: #ffffff;
+        border-radius: 25px;
+        padding: 20px;
+    }
+
+    .config-section {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #f0f0f0;
+        border-radius: 10px;
+        min-width: 400px;
+    }
+    
+    .config-label {
+        display: block;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .config-input {
+        width: 100%;
+        padding: 10px 12px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+        background-color: #fff;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    .config-input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    }
+
+    .config-input:hover {
+        border-color: #bbb;
+    }
+
+    .config-input::placeholder {
+        color: #999;
+        font-style: italic;
+    }
+
+    .help-text {
+        display: block;
+        margin-top: 8px;
+        font-size: 0.9em;
+        color: #666;
+        font-style: italic;
+        line-height: 1.4;
+        padding: 4px 0;        
+    }
+    .photos-list-controls {
+        display: block
+    }
+</style>
+
+<div id="config-view">
     <h2>Configuração do experimento</h2>
 
     <div class="config-section">
@@ -6,23 +71,25 @@
 
         <!-- Edição da primeira instrução -->
         <div>
-            <label for="first-instruction">Instruções:</label>
+            <label for="first-instruction" class="config-label">Instruções:</label>
             <textarea 
                 name="first-instruction" 
                 id="first-instruction" 
                 rows="8"
                 placeholder="Digite aqui o texto da primeira instrução"
+                class="config-input"
                 ></textarea>
         </div>
 
         <!-- Tempo para liberar o botão de prosseguir -->
         <div>
-            <label for="button-can-press-time">Temporizador de todos os botões:</label>
+            <label for="button-can-press-time" class="config-label">Temporizador de todos os botões:</label>
             <input
                 type="number"
                 name="button-can-press-time" 
                 id="button-can-press-time" 
                 placeholder="3"
+                class="config-input"
                 />
         </div>
     </div>
@@ -32,23 +99,24 @@
 
         <!-- Edição da Página de Escolha de Fotos -->
         <div>
-            <label for="select-photos-instruction">Instrução principal</label>
+            <label for="select-photos-instruction" class="config-label">Instrução principal</label>
             <textarea 
                 name="select-photos-instruction" 
                 id="select-photos-instruction" 
                 rows="8"
                 placeholder="Digite a instrução para selecionar as fotos aqui (máximo um parágrafo)"
+                class="config-input"
                 ></textarea>
         </div>
 
         <div>
-            <label for="total-photos-number">Número total de fotos</label>
-            <input type="number" name="total-photos-number" id="total-photos-number">
+            <label for="total-photos-number" class="config-label">Número total de fotos</label>
+            <input type="number" name="total-photos-number" id="total-photos-number" class="config-input">
         </div>
 
         <div>
-            <label for="select-photos-number">Número total de fotos a serem selecionadas</label>
-            <input type="number" name="select-photos-number" id="select-photos-number">
+            <label for="select-photos-number" class="config-label">Número total de fotos a serem selecionadas</label>
+            <input type="number" name="select-photos-number" id="select-photos-number" class="config-input">
         </div>
 
     </div>
@@ -56,12 +124,13 @@
     <div class="config-section">
         <h3>Configuração do ranqueamento de fotos</h3>
         <div>
-            <label for="rate-photos-instruction">Instrução principal</label>
+            <label for="rate-photos-instruction" class="config-label">Instrução principal</label>
             <textarea 
                 name="rate-photos-instruction" 
                 id="rate-photos-instruction" 
                 rows="8"
                 placeholder="Digite a instrução para ranquear as fotos aqui (máximo um parágrafo)"
+                class="config-input"
                 ></textarea>
         </div>
     </div>
@@ -70,12 +139,13 @@
         <h3>Configuração da instrução do questionário</h3>
 
         <div>
-            <label for="questionary-instruction">Instruções:</label>
+            <label for="questionary-instruction" class="config-label">Instruções:</label>
             <textarea 
                 name="questionary-instruction" 
                 id="questionary-instruction" 
                 rows="8"
                 placeholder="Digite aqui o texto da primeira instrução"
+                class="config-input"
                 ></textarea>
         </div>
 
@@ -85,53 +155,56 @@
         <h3>Configuração da tela do questionário</h3>
 
         <div>
-            <label for="choice-questionary-instruction">Instruções (Utilize {valor} para onde deve ser inserido o valor avaliado):</label>
+            <label for="choice-questionary-instruction" class="config-label">Instruções (Utilize {valor} para onde deve ser inserido o valor avaliado):</label>
             <textarea 
                 name="choice-questionary-instruction"
                 id="choice-questionary-instruction"
                 rows="8"
                 placeholder="Digite aqui o texto da primeira instrução"
+                class="config-input"
                 ></textarea>
         </div>
 
         <div>
-            <label for="min-choice-text">Opção com menor valor:</label>
+            <label for="min-choice-text" class="config-label">Opção com menor valor:</label>
             <textarea 
                 name="min-choice-text" 
                 id="min-choice-text"
                 rows="8"
                 placeholder="Digite aqui a opção que terá o menor valor"
+                class="config-input"
             ></textarea>
         </div>
 
         <div>
-            <label for="max-choice-text">Opção com maior valor:</label>
+            <label for="max-choice-text" class="config-label">Opção com maior valor:</label>
             <textarea 
                 name="max-choice-text" 
                 id="max-choice-text"
                 rows="8"
                 placeholder="Digite aqui a opção que terá o maior valor"
+                class="config-input"
             ></textarea>
         </div>
 
         <div>
-            <label>Fotos que irão para o questionário (índices das fotos ranqueadas):</label>
+            <label class="config-label">Fotos que irão para o questionário (índices das fotos ranqueadas):</label>
             <div id="photos-to-questionary-container">
                 <!-- Os campos serão adicionados dinamicamente aqui -->
             </div>
-            <div class="photos-list-controls">
-                <button type="button" id="add-photo-index">+ Adicionar Foto</button>
+            <div class="photos-list-controls action-buttons">
+                <button type="button" id="add-photo-index" class="green-button">+ Adicionar Foto</button>
                 <small class="help-text">Adicione os índices das fotos (0 = primeira foto ranqueada, 1 = segunda, etc.)</small>
             </div>
         </div>
 
         <div>
-            <label>Valores de intervalo para o questionário:</label>
+            <label class="config-label">Valores de intervalo para o questionário:</label>
             <div id="interval-values-container">
                 <!-- Os campos serão adicionados dinamicamente aqui -->
             </div>
-            <div class="photos-list-controls">
-                <button type="button" id="add-interval-value">+ Adicionar Valor</button>
+            <div class="photos-list-controls action-buttons ">
+                <button type="button" id="add-interval-value" class="green-button">+ Adicionar Valor</button>
                 <small class="help-text">Adicione os valores de intervalo que serão usados no questionário</small>
             </div>
         </div>
@@ -141,12 +214,13 @@
         <h3>Agradecimentos</h3>
 
         <div>
-            <label for="thanks-message">Mensagem de agradecimento:</label>
+            <label for="thanks-message" class="config-label">Mensagem de agradecimento:</label>
             <textarea 
                 name="thanks-message" 
                 id="thanks-message" 
                 rows="8"
                 placeholder="Digite aqui o texto da primeira instrução"
+                class="config-input"
                 ></textarea>
         </div>
 
@@ -154,9 +228,9 @@
 
 
     <!-- Botões de ação -->
-     <div>
-        <button id="save-button">Salvar</button>
-        <button id="reset-button">Resetar</button>
-        <button id="back-button">Voltar</button>
+     <div class="action-buttons"> 
+        <button id="save-button" class="green-button">Salvar</button>
+        <button id="reset-button" class="red-button">Resetar</button>
+        <button id="back-button" class="yellow-button">Voltar</button>
      </div>
 </div>

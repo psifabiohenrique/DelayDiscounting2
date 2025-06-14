@@ -164,12 +164,12 @@ class DynamicNumberList {
         const fieldId = `${this.containerId}-field-${this.counter}`;
         
         const fieldDiv = document.createElement('div');
-        fieldDiv.className = 'dynamic-list-field';
+        fieldDiv.className = 'dynamic-list-field action-buttons';
         
         let inputAttributes = `
             type="${this.inputType}" 
             id="${fieldId}" 
-            class="dynamic-list-input"
+            class="dynamic-list-input config-input"
             value="${value}" 
             placeholder="${this.placeholder}"
         `;
@@ -180,7 +180,7 @@ class DynamicNumberList {
         fieldDiv.innerHTML = `
             <div class="input-group">
                 <input ${inputAttributes} />
-                <button type="button" class="remove-field-btn" data-field-id="${fieldId}">
+                <button type="button" class="remove-field-btn red-button" data-field-id="${fieldId}">
                     ✕ Remover
                 </button>
             </div>
