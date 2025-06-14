@@ -1,13 +1,12 @@
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const fs = require('fs').promises;
+const path = require('path');
+const { app } = require('electron');
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-export class DataExporter {
+class DataExporter {
     constructor() {
-        this.dataFolder = path.join(__dirname, '..', 'data');
+        // No ambiente empacotado, usar o diretório de dados do usuário
+        const userDataPath = app ? app.getPath('userData') : process.cwd();
+        this.dataFolder = path.join(userDataPath, 'data');
         this.ensureDataFolder();
     }
 
@@ -27,6 +26,10 @@ export class DataExporter {
         const csvData = this.formatDataForCSV(participantData);
 
         await fs.writeFile(filePath, csvData, 'utf-8');
+        
+        // Log do caminho onde foi salvo
+        console.log(`Dados salvos em: ${filePath}`);
+        
         return filePath;
     }
 
@@ -68,4 +71,11 @@ export class DataExporter {
     padArray(arr, length) {
         return [...arr, ...Array(length - arr.length).fill('')];
     }
+
+    // Método para obter o caminho da pasta de dados
+    getDataFolderPath() {
+        return this.dataFolder;
+    }
 }
+
+module.exports = { DataExporter };

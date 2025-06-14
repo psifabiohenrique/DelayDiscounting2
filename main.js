@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { loadConfigFile, saveConfigFile } = require('./utils/configSettings');
@@ -79,6 +79,17 @@ ipcMain.handle('close-application', async () => {
     try {
         app.quit();
         return { success: true };
+    } catch (error) {
+        return { success: false, error: error.message };
+    }
+});
+
+ipcMain.handle('open-data-folder', async () => {
+    try {
+        const exporter = new DataExporter();
+        const dataFolderPath = exporter.getDataFolderPath();
+        await shell.openPath(dataFolderPath);
+        return { success: true, path: dataFolderPath };
     } catch (error) {
         return { success: false, error: error.message };
     }

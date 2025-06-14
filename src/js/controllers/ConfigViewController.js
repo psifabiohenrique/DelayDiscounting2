@@ -1,7 +1,7 @@
 class ConfigViewController extends BaseViewController {
     constructor(gameController) {
         super(constants.config, gameController);
-        this.dynamicLists = []; 
+        this.dynamicLists = [];
     }
 
     async setupView() {
@@ -23,6 +23,11 @@ class ConfigViewController extends BaseViewController {
         this.setupDynamicLists(config);
 
         this.setupEventListeners();
+
+        // No ConfigViewController, adicione:
+        this.getElementById('open-data-folder-button').addEventListener('click', async () => {
+            const result = await window.electronAPI.openDataFolder();
+        });
     }
 
     setupDynamicLists(config) {
@@ -48,7 +53,7 @@ class ConfigViewController extends BaseViewController {
     }
 
     validatePhotoIndices(values, config) {
-        if(values.length === 0) {
+        if (values.length === 0) {
             return { valid: false, message: 'Adicione pelo menos um índice de foto para o questionário.' };
         }
 
@@ -56,10 +61,10 @@ class ConfigViewController extends BaseViewController {
         const maxPhotoIndex = selectPhotosNumber - 1;
         const invalidIndices = values.filter(index => index > maxPhotoIndex);
 
-        if(invalidIndices.length > 0) {
-            return { 
-                valid: false, 
-                message: `Índices inválidos: ${invalidIndices.join(', ')}. O índice máximo é ${maxPhotoIndex} (baseado em ${selectPhotosNumber} fotos selecionadas).` 
+        if (invalidIndices.length > 0) {
+            return {
+                valid: false,
+                message: `Índices inválidos: ${invalidIndices.join(', ')}. O índice máximo é ${maxPhotoIndex} (baseado em ${selectPhotosNumber} fotos selecionadas).`
             };
         }
         return { valid: true };
@@ -125,7 +130,7 @@ class DynamicNumberList {
         this.min = options.min !== undefined ? options.min : null;
         this.max = options.max !== undefined ? options.max : null;
         this.validation = options.validation || (() => ({ valid: true }));
-        
+
         this.counter = 0;
         this.init();
     }
@@ -162,10 +167,10 @@ class DynamicNumberList {
     addField(value = '') {
         const container = document.getElementById(this.containerId);
         const fieldId = `${this.containerId}-field-${this.counter}`;
-        
+
         const fieldDiv = document.createElement('div');
         fieldDiv.className = 'dynamic-list-field action-buttons';
-        
+
         let inputAttributes = `
             type="${this.inputType}" 
             id="${fieldId}" 
@@ -173,7 +178,7 @@ class DynamicNumberList {
             value="${value}" 
             placeholder="${this.placeholder}"
         `;
-        
+
         if (this.min !== null) inputAttributes += ` min="${this.min}"`;
         if (this.max !== null) inputAttributes += ` max="${this.max}"`;
 
@@ -199,7 +204,7 @@ class DynamicNumberList {
 
     removeField(fieldDiv) {
         const container = document.getElementById(this.containerId);
-        
+
         // Não permitir remover se é o último campo
         const remainingFields = container.querySelectorAll('.dynamic-list-field');
         if (remainingFields.length <= 1) {
@@ -213,7 +218,7 @@ class DynamicNumberList {
     getValues() {
         const container = document.getElementById(this.containerId);
         const inputs = container.querySelectorAll('.dynamic-list-input');
-        
+
         const values = [];
         inputs.forEach(input => {
             const value = this.inputType === 'number' ? parseFloat(input.value) : input.value.trim();
@@ -232,7 +237,7 @@ class DynamicNumberList {
         if (this.inputType === 'number') {
             return [...new Set(values)].sort((a, b) => a - b);
         }
-        
+
         return [...new Set(values)];
     }
 

@@ -1,6 +1,6 @@
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const fs = require('fs').promises;
+const path = require('path');
+const { app } = require('electron');
 
 // Configurações padrão
 const DEFAULT_CONFIG = {
@@ -19,25 +19,78 @@ const DEFAULT_CONFIG = {
     thanksMessage: "Obrigado por participar!"
 };
 
-// Caminho para o arquivo de configurações
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const CONFIG_FILE_PATH = path.join(__dirname, '..', 'config.json');
+class ConfigManager {
+    constructor() {
+        // Usar o mesmo diretório de dados do usuário que o DataExporter
+        const userDataPath = app ? app.getPath('userData') : process.cwd();
+        this.configFolder = path.join(userDataPath, 'data');
+        this.configFilePath = path.join(this.configFolder, 'config.json');
+        this.ensureConfigFolder();
+    }
 
+    async ensureConfigFolder() {
+        try {
+            await fs.access(this.configFolder);
+        } catch {
+            await fs.mkdir(this.configFolder, { recursive: true });
+        }
+    }
 
+    async saveConfigFile(config = null) {
+        await this.ensureConfigFolder();
+        const configToSave = config || DEFAULT_CONFIG;
+        const configJson = JSON.stringify(configToSave, null, 2);
+        
+        await fs.writeFile(this.configFilePath, configJson, 'utf-8');
+        console.log(`Configuração salva em: ${this.configFilePath}`);
+        
+        return configToSave;
+    }
 
-export async function saveConfigFile(config = null) {
-    const configJson = JSON.stringify(config || DEFAULT_CONFIG, null, 2);
-    await fs.writeFile(CONFIG_FILE_PATH, configJson, 'utf-8');
-    return configJson;
-}
+    async loadConfigFile() {
+        try {
+            await this.ensureConfigFolder();
+            await fs.access(this.configFilePath);
+            
+            const configJson = await fs.readFile(this.configFilePath, 'utf-8');
+            if (configJson && configJson.trim()) {
+                const parsedConfig = JSON.parse(configJson);
+                console.log(`Configuração carregada de: ${this.configFilePath}`);
+                return parsedConfig;
+            } else {
+                console.log('Arquivo de configuração vazio, usando configuração padrão');
+                return await this.saveConfigFile(DEFAULT_CONFIG);
+            }
+        } catch (error) {
+            console.log('Arquivo de configuração não encontrado, criando com configuração padrão');
+            return await this.saveConfigFile(DEFAULT_CONFIG);
+        }
+    }
 
-export async function loadConfigFile() {
-    await fs.access(CONFIG_FILE_PATH);
-    const configJson = await fs.readFile(CONFIG_FILE_PATH, 'utf-8');
-    if (configJson) {
-        return JSON.parse(configJson);
-    } else {
-        return DEFAULT_CONFIG;
+    getConfigFolderPath() {
+        return this.configFolder;
+    }
+
+    getConfigFilePath() {
+        return this.configFilePath;
     }
 }
+
+// Criar instância única do gerenciador de configuração
+const configManager = new ConfigManager();
+
+// Exportar funções que mantêm compatibilidade com o código existente
+async function saveConfigFile(config = null) {
+    return await configManager.saveConfigFile(config);
+}
+
+async function loadConfigFile() {
+    return await configManager.loadConfigFile();
+}
+
+module.exports = { 
+    saveConfigFile, 
+    loadConfigFile, 
+    ConfigManager,
+    DEFAULT_CONFIG 
+};

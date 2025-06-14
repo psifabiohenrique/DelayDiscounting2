@@ -1,14 +1,50 @@
 {
-  "name": "delaydiscounting2",
-  "version": "1.0.0",
+  "name": "desconto-de-atraso-2",
+  "version": "2.0.0",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "electron-builder",
+    "build-win": "electron-builder --win",
+    "build-mac": "electron-builder --mac",
+    "build-linux": "electron-builder --linux",
+    "dist": "electron-builder --publish=never"
+  },
+  "build": {
+    "appId": "com.research.delay-discounting",
+    "productName": "Experimento Desconto de Atraso",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!node_modules/**/*",
+      "!dist/**/*",
+      "!.git/**/*",
+      "!README.md"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Fábio Henrique",
+  "license": "MIT",
   "description": "",
   "devDependencies": {
     "electron": "^36.4.0",
