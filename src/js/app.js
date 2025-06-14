@@ -20,6 +20,8 @@ class GameController {
             }
         }
 
+        this.imagesPath = [];
+
         // game settings initialization
         this.gameSettings = {}
 
@@ -41,6 +43,8 @@ class GameController {
 
         switch (screenName) {
             case constants.home:
+                const images = await window.electronAPI.loadImages(this.gameSettings.totalPhotosNumber);
+                this.imagesPath = images.images;
                 this.homeView.setupView();
                 break;
             case constants.config:
@@ -110,6 +114,10 @@ class GameController {
     
     getParticipantData() {
         return this.gameState.participantData;
+    }
+
+    getPhotos() {
+        return this.imagesPath;
     }
 
     async finalizeGame() {

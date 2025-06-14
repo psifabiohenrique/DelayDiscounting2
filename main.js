@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const { loadConfigFile, saveConfigFile } = require('./utils/configSettings');
 const { DataExporter } = require('./utils/dataExporter');
+const { loadImages } = require('./utils/imageUploader')
 
 
 function createWindow() {
@@ -92,6 +93,15 @@ ipcMain.handle('open-data-folder', async () => {
         return { success: true, path: dataFolderPath };
     } catch (error) {
         return { success: false, error: error.message };
+    }
+});
+
+ipcMain.handle('load-images', async (event, numberOfImages) => {
+    try {
+        const images = await loadImages(numberOfImages);
+        return {success: true, images: images};
+    } catch (error) {
+        return {success: false, error: error.message};
     }
 });
 

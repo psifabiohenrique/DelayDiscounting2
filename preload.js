@@ -8,5 +8,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     saveData: (data) => ipcRenderer.invoke('save-data', data),
     closeApp: () => ipcRenderer.invoke('close-application'),
     openDataFolder: () => ipcRenderer.invoke('open-data-folder'),
-    getDataFolderPath: () => ipcRenderer.invoke('get-data-folder-path')
+    getDataFolderPath: () => ipcRenderer.invoke('get-data-folder-path'),
+    loadImages: (numberOfImages) => ipcRenderer.invoke('load-images', numberOfImages)
 });

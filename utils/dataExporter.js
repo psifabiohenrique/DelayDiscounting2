@@ -28,7 +28,7 @@ class DataExporter {
         await fs.writeFile(filePath, csvData, 'utf-8');
         
         // Log do caminho onde foi salvo
-        console.log(`Dados salvos em: ${filePath}`);
+        console.warn(`Dados salvos em: ${filePath}`);
         
         return filePath;
     }

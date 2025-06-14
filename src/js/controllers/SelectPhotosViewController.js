@@ -27,11 +27,12 @@ class SelectPhotosViewController extends BaseViewController {
 
     async generatePhotos() {
         this.photos = [];
-        for (let i = 1; i <= this.totalPhotosNumber; i++) {
+        const imagesPaths = this.gameController.getPhotos()
+        for (let i = 0; i <= this.totalPhotosNumber - 1; i++) {
             this.photos.push({
                 id: i,
                 // Usando placeholder images - substitua pelos caminhos reais das suas fotos
-                src: `src/media/${i}.jpg`,
+                src: imagesPaths[i].path,
                 alt: `Foto ${i}`,
                 selected: false
             });
