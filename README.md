@@ -34,7 +34,7 @@ Este programa foi desenvolvido para pesquisadores conduzirem experimentos contro
 ### Instalação para Desenvolvimento
 ```bash
 # Clone o repositório
-git clone https://github.com/psifabiohenrique/dealy-discounting-2
+git clone https://github.com/psifabiohenrique/DealyDiscounting2
 cd DelayDiscounting2
 
 # Instale as dependências
