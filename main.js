@@ -15,7 +15,10 @@ function createWindow() {
             preload: path.join(__dirname, 'preload.js')
         },
         title: "Experimento de Desconto de Atraso",
-        show: false
+        show: false,
+        fullscreenable: true,
+        fullscreen: true,
+        autoHideMenuBar: true,
     });
 
     mainWindow.once('ready-to-show', () => {
@@ -67,6 +70,15 @@ ipcMain.handle('save-data', async (event, data) => {
         const detailedPath = await exporter.exportToCSV(data);
 
         return { success: true, path: detailedPath };
+    } catch (error) {
+        return { success: false, error: error.message };
+    }
+});
+
+ipcMain.handle('close-application', async () => {
+    try {
+        app.quit();
+        return { success: true };
     } catch (error) {
         return { success: false, error: error.message };
     }

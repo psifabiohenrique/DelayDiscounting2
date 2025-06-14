@@ -132,3 +132,6 @@ dist_electron/
 # Auto-generated files
 *.auto.js
 *.auto.ts
+
+
+data/

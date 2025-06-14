@@ -114,6 +114,10 @@ class GameController {
 
     async finalizeGame() {
         const filePath = await window.electronAPI.saveData(this.gameState.participantData);
+
+        if(filePath) {
+            await window.electronAPI.closeApp();
+        }
     }
 }
 

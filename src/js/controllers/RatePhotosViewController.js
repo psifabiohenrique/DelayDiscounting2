@@ -48,8 +48,13 @@ class RatePhotosViewController extends BaseViewController {
         positionIndicator.className = 'position-indicator';
         positionIndicator.textContent = index + 1;
 
+        const dragHere = document.createElement('p');
+        dragHere.className = 'drag-here';
+        dragHere.textContent = 'arraste aqui';
+
         photoDiv.appendChild(img);
         photoDiv.appendChild(positionIndicator);
+        photoDiv.appendChild(dragHere);
 
         return photoDiv;
     }
