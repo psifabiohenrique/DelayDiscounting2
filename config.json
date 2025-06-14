@@ -1,24 +1,21 @@
 {
   "firstInstruction": "Bem-vindo ao experimento de desconto de atraso",
-  "buttonCanPressTime": 3,
+  "buttonCanPressTime": 1,
   "selectPhotosInstruction": "Instrução para selecionar fotos",
-  "totalPhotosNumber": 20,
-  "selectPhotosNumber": 10,
+  "totalPhotosNumber": 5,
+  "selectPhotosNumber": 2,
   "ratePhotosInstruction": "Instrução para ranquear as fotos",
   "questionaryInstruction": "Instrução para o questionário",
-  "choiceQuestionaryInstruction": "Instrução para completar o questionário",
   "minChoice": "Escolha mínima",
   "maxChoice": "Escolha máxima",
+  "choiceQuestionaryInstruction": "Instrução para completar o questionário",
   "photosToQuestionary": [
     0,
-    4,
-    9
+    1
   ],
   "intervalValues": [
     1,
-    2,
-    3,
-    4,
-    5
-  ]
+    2
+  ],
+  "thanksMessage": "Obrigado por participar!"
 }

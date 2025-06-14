@@ -85,15 +85,15 @@
         <h3>Configuração da tela do questionário</h3>
 
         <div>
-            <label for="choice-questionary-instruction">Instruções:</label>
+            <label for="choice-questionary-instruction">Instruções (Utilize {valor} para onde deve ser inserido o valor avaliado):</label>
             <textarea 
-                name="choice-questionary-instruction"" 
-                id="choice-questionary-instruction"" 
+                name="choice-questionary-instruction"
+                id="choice-questionary-instruction"
                 rows="8"
                 placeholder="Digite aqui o texto da primeira instrução"
                 ></textarea>
         </div>
-        
+
         <div>
             <label for="min-choice-text">Opção com menor valor:</label>
             <textarea 
@@ -135,8 +135,23 @@
                 <small class="help-text">Adicione os valores de intervalo que serão usados no questionário</small>
             </div>
         </div>
+    </div>
+
+    <div class="config-section">
+        <h3>Agradecimentos</h3>
+
+        <div>
+            <label for="thanks-message">Mensagem de agradecimento:</label>
+            <textarea 
+                name="thanks-message" 
+                id="thanks-message" 
+                rows="8"
+                placeholder="Digite aqui o texto da primeira instrução"
+                ></textarea>
+        </div>
 
     </div>
+
 
     <!-- Botões de ação -->
      <div>

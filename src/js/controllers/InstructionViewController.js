@@ -8,8 +8,6 @@ class InstructionViewController extends BaseViewController {
         await this.loadScreen();
         this.config = this.gameController.getGameSettings();
 
-        console.log('Game settings loaded:', this.config);
-
         if (!questinaryInstructionShown) {
             this.firstInstruction();
         } else {

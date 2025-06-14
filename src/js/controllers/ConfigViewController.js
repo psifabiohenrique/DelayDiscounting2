@@ -18,6 +18,7 @@ class ConfigViewController extends BaseViewController {
         this.getElementById('min-choice-text').value = config.minChoice;
         this.getElementById('max-choice-text').value = config.maxChoice;
         this.getElementById('choice-questionary-instruction').value = config.choiceQuestionaryInstruction;
+        this.getElementById('thanks-message').value = config.thanksMessage;
 
         this.setupDynamicLists(config);
 
@@ -85,7 +86,8 @@ class ConfigViewController extends BaseViewController {
                 maxChoice: this.getElementById('max-choice-text').value,
                 choiceQuestionaryInstruction: this.getElementById('choice-questionary-instruction').value,
                 photosToQuestionary: this.dynamicLists.photosToQuestionary.getValues(),
-                intervalValues: this.dynamicLists.intervalValues.getValues()
+                intervalValues: this.dynamicLists.intervalValues.getValues(),
+                thanksMessage: this.getElementById('thanks-message').value,
             };
 
             // Validar todas as listas dinâmicas

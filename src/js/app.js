@@ -9,14 +9,15 @@ class GameController {
         this.instructionView = new InstructionViewController(this);
         this.selectPhotosView = new SelectPhotosViewController(this);
         this.ratePhotosView = new RatePhotosViewController(this);
-        this.questionaryView = new QuestionaryViewController(this);
 
         // game variable initialization
         this.gameState = {
             currentScreen: null,
             previousScreen: null,
             questinaryInstructionShown: false,
-            participantData: {}
+            participantData: {
+                responses: []
+            }
         }
 
         // game settings initialization
@@ -56,8 +57,19 @@ class GameController {
                 this.ratePhotosView.setupView();
                 break;
             case constants.questionary:
-                // to implement
-                this.questionaryView.setupView();
+                if(this.gameSettings.photosToQuestionary.length > 0) {
+                    this.questionaryView = new QuestionaryViewController(this);
+                    const valuesList = [...this.gameSettings.intervalValues];
+                    this.questionaryView.setupView(this.gameState.participantData.photoRanking[this.gameSettings.photosToQuestionary[0]], valuesList);
+                    this.gameSettings.photosToQuestionary.shift();
+                }
+                else {
+                    this.nextScreen(constants.thanks);
+                }
+                break;
+            case constants.thanks:
+                this.thanksView = new ThanksViewController(this).setupView();
+                break;
             default:
                 console.error(`Unknown screen: ${screenName}`);
         }
@@ -91,12 +103,17 @@ class GameController {
         return this.screenLoader;
     }
 
-    // setParticipantData(data) {
-    //     this.gameState.participantData = {...this.gameState.participantData, ...data};
-    // }
+    setParticipantData(photo, data) {
+        this.gameState.participantData.responses.push({ photo, data });
+    }
     
     getParticipantData() {
         return this.gameState.participantData;
+    }
+
+    finalizeGame() {
+        console.log('Game has been finalized.');
+        console.log('Results: ', this.gameState.participantData);
     }
 }
 

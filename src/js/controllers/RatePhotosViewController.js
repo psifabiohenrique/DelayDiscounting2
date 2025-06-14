@@ -4,14 +4,16 @@ class RatePhotosViewController extends BaseViewController {
 
         this.photoOrder = [];
         this.currentRanking = [];
+
+        this.config = null;
     }
 
     async setupView() {
         await this.loadScreen();
-        let config = this.gameController.getGameSettings();
+        this.config = this.gameController.getGameSettings();
         this.photoOrder = this.gameController.getParticipantData().selectedPhotos;
 
-        this.getElementById('instruction-rate-photos').innerHTML = config.ratePhotosInstruction;
+        this.getElementById('instruction-rate-photos').innerHTML = this.config.ratePhotosInstruction;
 
         this.renderPhotos();
         this.setupDragAndDrop();
@@ -23,7 +25,6 @@ class RatePhotosViewController extends BaseViewController {
         container.innerHTML = '';
 
         this.currentRanking = [...this.photoOrder];
-        console.log(this.currentRanking);
 
         this.currentRanking.forEach((photo, index) => {
             const photoElement = this.createPhotoElement(photo, index);
@@ -124,6 +125,7 @@ class RatePhotosViewController extends BaseViewController {
 
     setupSubmitButton() {
         const submitButton = document.getElementById('submit-rating');
+        this.setupProceedButtonTimer(submitButton);
         submitButton.addEventListener('click', () => this.submitRanking());
     }
 

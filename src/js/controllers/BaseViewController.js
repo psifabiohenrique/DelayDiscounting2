@@ -2,6 +2,7 @@ class BaseViewController {
     constructor(screenName, gameController) {
         this.screenName = screenName;
         this.gameController = gameController;
+
     }
 
     async loadScreen() {

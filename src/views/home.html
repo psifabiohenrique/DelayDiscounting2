@@ -1,3 +1,47 @@
+<style>
+    .form-group {
+        margin-bottom: 20px;
+        margin-right: 50px;
+        box-sizing: border-box;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+        font-size: 14px;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e1e5e9;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        background-color: #fff;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+        outline: none;
+        border-color: #4CAF50;
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+    }
+
+    #home-view {
+        max-width: 500px;
+        margin: 40px auto;
+        padding: 30px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+</style>
+
 <div id="home-view">
     <h1>Iniciar Experimento</h1>
 
@@ -13,8 +57,8 @@
         </div>
     </form>
 
-    <div class="button-group"> 
-        <button type="button" id="start-button">Iniciar</button>
-        <button type="button" id="settings-button">Configurações</button>
+    <div class="action-buttons"> 
+        <button type="button" id="start-button" class="green-button">Iniciar</button>
+        <button type="button" id="settings-button" class="yellow-button">Configurações</button>
     </div>
 </div>

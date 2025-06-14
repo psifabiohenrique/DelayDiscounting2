@@ -16,6 +16,7 @@ const DEFAULT_CONFIG = {
     maxChoice: "Escolha máxima",
     photosToQuestionary: [0, 4, 9],
     intervalValues: [1, 2, 3, 4, 5],
+    thanksMessage: "Obrigado por participar!"
 };
 
 // Caminho para o arquivo de configurações
