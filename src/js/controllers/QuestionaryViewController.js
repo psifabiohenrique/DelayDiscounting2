@@ -30,8 +30,6 @@ class QuestionaryViewController extends BaseViewController {
         const instructionText = this.config.choiceQuestionaryInstruction.replace('{valor}', this.lastValue);
         const paragraphs = instructionText.split('\n').filter(p => p.trim() !== '');
         descriptionDiv.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
-        console.log("lastValue: ", this.lastValue)
-        console.log("listOfValues: ", this.listOfValues);
         this.listOfValues.shift();
     }
 

@@ -5,10 +5,11 @@ class HomeViewController extends BaseViewController {
 
     async setupView() {
         await this.loadScreen();
-        this.getElementById('participant-id').value = this.generateParticipantId();
-        const ageElement = this.getElementById('participant-age');
+        const participantId = this.generateParticipantId();
+        this.getElementById('participant-id').value = participantId;
         this.getElementById('start-button').addEventListener('click', () => {
-            this.gameController.nextScreen(constants.instruction);
+            const ageElement = this.getElementById('participant-age').value;
+            this.gameController.nextScreen(constants.instruction, {participantId, ageElement});
         });        
         this.getElementById('settings-button').addEventListener('click', () => {
             this.gameController.nextScreen(constants.config);

@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { loadConfigFile, saveConfigFile } = require('./utils/configSettings');
+const { DataExporter } = require('./utils/dataExporter');
 
 
 function createWindow() {
@@ -56,6 +57,18 @@ ipcMain.handle('reset-config', async () => {
     } catch (error) {
         console.warn("Falha ao redefinir o arquivo de configuração");
         return {success: false, error: error.message}
+    }
+});
+
+ipcMain.handle('save-data', async (event, data) => {
+    try {
+        const exporter = new DataExporter();
+
+        const detailedPath = await exporter.exportToCSV(data);
+
+        return { success: true, path: detailedPath };
+    } catch (error) {
+        return { success: false, error: error.message };
     }
 });
 

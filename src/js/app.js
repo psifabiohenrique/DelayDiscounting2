@@ -105,15 +105,15 @@ class GameController {
 
     setParticipantData(photo, data) {
         this.gameState.participantData.responses.push({ photo, data });
+        this.gameState.participantData.options = this.gameSettings.intervalValues;
     }
     
     getParticipantData() {
         return this.gameState.participantData;
     }
 
-    finalizeGame() {
-        console.log('Game has been finalized.');
-        console.log('Results: ', this.gameState.participantData);
+    async finalizeGame() {
+        const filePath = await window.electronAPI.saveData(this.gameState.participantData);
     }
 }
 
