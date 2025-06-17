@@ -11,12 +11,13 @@ const DEFAULT_CONFIG = {
     selectPhotosNumber: 10,
     ratePhotosInstruction: "Instrução para ranquear as fotos",
     questionaryInstruction: "Instrução para o questionário",
-    choiceQuestionaryInstruction: "Instrução para completar o questionário",
+    choiceQuestionaryInstruction: "Instrução para completar o questionário com o intervalo {valor}",
+    questionHighlight: "O intervalo atual é {valor}",
     minChoice: "Escolha mínima",
     maxChoice: "Escolha máxima",
     photosToQuestionary: [0, 4, 9],
     intervalValues: [1, 2, 3, 4, 5],
-    thanksMessage: "Obrigado por participar!"
+    thanksMessage: "Obrigado por participar!",
 };
 
 class ConfigManager {

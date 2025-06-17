@@ -19,6 +19,7 @@ class QuestionaryViewController extends BaseViewController {
         confirmButton.addEventListener('click', () => this.handleConfirmChoice());
         this.setupProceedButtonTimer(confirmButton);
 
+        this.setupSliderValueDisplay();
         this.initialize();
 
     }
@@ -27,10 +28,17 @@ class QuestionaryViewController extends BaseViewController {
     initialize() {
         this.lastValue = this.listOfValues[0];
         const descriptionDiv = this.getElementById('questionaryDescription');
+        const questionHighlight = this.getElementById('highlightText');
+        questionHighlight.innerHTML = this.config.questionHighlight.replace('{valor}', this.lastValue);
         const instructionText = this.config.choiceQuestionaryInstruction.replace('{valor}', this.lastValue);
         const paragraphs = instructionText.split('\n').filter(p => p.trim() !== '');
         descriptionDiv.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
         this.listOfValues.shift();
+
+        const minChoice = this.getElementById('minChoice');
+        const maxChoice = this.getElementById('maxChoice');
+        minChoice.innerHTML = this.config.minChoice || '';
+        maxChoice.innerHTML = this.config.maxChoice || '';
     }
 
     handleConfirmChoice() {
@@ -46,6 +54,19 @@ class QuestionaryViewController extends BaseViewController {
 
         const confirmButton = this.getElementById('confirmChoice');
         this.setupProceedButtonTimer(confirmButton);
+    }
+
+    setupSliderValueDisplay() {
+        const slider = this.getElementById('choiceProportion');
+        const valueDisplay = this.getElementById('currentSliderValue');
+        
+        slider.addEventListener('input', (event) => {
+            valueDisplay.textContent = `${event.target.value}%`;
+        });
+        
+        slider.addEventListener('change', (event) => {
+            valueDisplay.textContent = `${event.target.value}%`;
+        });
     }
 
 }

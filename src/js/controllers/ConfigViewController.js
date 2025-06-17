@@ -19,6 +19,7 @@ class ConfigViewController extends BaseViewController {
         this.getElementById('max-choice-text').value = config.maxChoice;
         this.getElementById('choice-questionary-instruction').value = config.choiceQuestionaryInstruction;
         this.getElementById('thanks-message').value = config.thanksMessage;
+        this.getElementById('question-highlight').value = config.questionHighlight;
 
         this.setupDynamicLists(config);
 
@@ -46,7 +47,7 @@ class ConfigViewController extends BaseViewController {
             addButtonId: 'add-interval-value',
             initialValues: config.intervalValues || [],
             placeholder: 'Valor do intervalo (ex: 1, 2, 3, 4...)',
-            inputType: 'number',
+            inputType: 'text',
             min: 0,
             validation: (values) => this.validateIntervalValues(values)
         });
@@ -93,6 +94,7 @@ class ConfigViewController extends BaseViewController {
                 photosToQuestionary: this.dynamicLists.photosToQuestionary.getValues(),
                 intervalValues: this.dynamicLists.intervalValues.getValues(),
                 thanksMessage: this.getElementById('thanks-message').value,
+                questionHighlight: this.getElementById('question-highlight').value,
             };
 
             // Validar todas as listas dinâmicas
@@ -126,7 +128,7 @@ class DynamicNumberList {
         this.addButtonId = options.addButtonId;
         this.initialValues = options.initialValues || [];
         this.placeholder = options.placeholder || 'Digite um valor';
-        this.inputType = options.inputType || 'number';
+        this.inputType = options.inputType || 'text';
         this.min = options.min !== undefined ? options.min : null;
         this.max = options.max !== undefined ? options.max : null;
         this.validation = options.validation || (() => ({ valid: true }));
