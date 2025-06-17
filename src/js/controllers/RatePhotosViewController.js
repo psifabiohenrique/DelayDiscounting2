@@ -1,10 +1,9 @@
 class RatePhotosViewController extends BaseViewController {
     constructor(gameController) {
         super(constants.ratePhotos, gameController);
-
         this.photoOrder = [];
         this.currentRanking = [];
-
+        this.isUpdating = false;
         this.config = null;
     }
 
@@ -16,7 +15,6 @@ class RatePhotosViewController extends BaseViewController {
         this.getElementById('instruction-rate-photos').innerHTML = this.config.ratePhotosInstruction;
 
         this.renderPhotos();
-        this.setupDragAndDrop();
         this.setupSubmitButton();
     }
 
@@ -35,7 +33,6 @@ class RatePhotosViewController extends BaseViewController {
     createPhotoElement(photo, index) {
         const photoDiv = document.createElement('div');
         photoDiv.className = 'photo-item';
-        photoDiv.draggable = true;
         photoDiv.dataset.photoId = photo.id || index;
         photoDiv.dataset.originalIndex = index;
 
@@ -46,85 +43,71 @@ class RatePhotosViewController extends BaseViewController {
 
         const positionIndicator = document.createElement('div');
         positionIndicator.className = 'position-indicator';
-        positionIndicator.textContent = index + 1;
+        const positionInput = document.createElement('input');
+        positionInput.className = 'position-input';
+        positionInput.type = 'number';
+        positionInput.value = index + 1;
+        positionInput.setAttribute('min', '1');
+        positionInput.setAttribute('max', this.photoOrder.length);
 
-        const dragHere = document.createElement('p');
-        dragHere.className = 'drag-here';
-        dragHere.textContent = 'arraste aqui';
+        positionInput.addEventListener('change', (e) => this.handlePositionChange(e, index));
+        positionInput.addEventListener('input', (e) => this.validateInput(e.target));
 
+        positionIndicator.appendChild(positionInput);
         photoDiv.appendChild(img);
         photoDiv.appendChild(positionIndicator);
-        photoDiv.appendChild(dragHere);
-
         return photoDiv;
     }
 
-    setupDragAndDrop() {
-        const container = this.getElementById('photo-rating-container');
-        let draggedElement = null;
-        let draggedIndex = null;
+    handlePositionChange(event, photoIndex) {
+        if (this.isUpdating) return;
 
-        container.addEventListener('dragstart', (e) => {
-            draggedElement = e.target;
-            draggedIndex = Array.from(container.children).indexOf(draggedElement);
-            e.target.classList.add('dragging');
-            e.dataTransfer.effectAllowed = 'move';
-        });
+        const input = event.target;
+        const newPosition = parseInt(input.value);
 
-        container.addEventListener('dragend', (e) => {
-            if(e.target.classList.contains('photo-item')) {
-                e.target.classList.remove('dragging');
-                draggedElement = null;
-                draggedIndex = null;
-            }
-        });
+        if (!this.validateInput(input)) {
+            input.value = this.getCurrentPositionOfPhoto(photoIndex) + 1;
+            return;
+        }
 
-        container.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = 'move';
-
-            const afterElement = this.getDragAfterElement(container, e.clientY);
-            const dragging = container.querySelector('.dragging');
-
-            if(afterElement == null) {
-                container.appendChild(dragging);
-            } else {
-                container.insertBefore(dragging, afterElement);
-            }
-        });
-
-        container.addEventListener('drop', (e) => {
-            e.preventDefault();
-            this.updateRanking();
-        });
+        this.updateRanking(photoIndex, newPosition - 1);
     }
 
-    getDragAfterElement(container, y) {
-        const draggableElements = [...container.querySelectorAll('.photo-item:not(.dragging)')];
-        
-        return draggableElements.reduce((closest, child) => {
-            const box = child.getBoundingClientRect();
-            const offset = y - box.top - box.height / 2;
-            
-            if (offset < 0 && offset > closest.offset) {
-                return { offset: offset, element: child };
-            } else {
-                return closest;
-            }
-        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    validateInput(input) {
+        const value = parseInt(input.value);
+        const isValid = !isNaN(value) && value >= 1 && value <= this.photoOrder.length;
+
+        input.classList.toggle('invalid', !isValid);
+        return isValid;
     }
 
-    updateRanking() {
+    getCurrentPositionOfPhoto(originalIndex) {
+        return this.currentRanking.findIndex(photo =>
+            photo === this.photoOrder[originalIndex]);
+    }
+
+    updateRanking(photoIndex, newPosition) {
+        this.isUpdating = true;
+
+        const photo = this.photoOrder[photoIndex];
+        const currentPosition = this.getCurrentPositionOfPhoto(photoIndex);
+
+        this.currentRanking.splice(currentPosition, 1);
+        this.currentRanking.splice(newPosition, 0, photo);
+
+        this.updateAllInputs();
+        this.isUpdating = false;
+    }
+
+    updateAllInputs() {
         const container = this.getElementById('photo-rating-container');
         const photoElements = container.querySelectorAll('.photo-item');
 
-        this.currentRanking = [];
-        photoElements.forEach((element, index) => {
+        photoElements.forEach(element => {
             const originalIndex = parseInt(element.dataset.originalIndex);
-            this.currentRanking.push(this.photoOrder[originalIndex]);
-
-            const positionIdicator = element.querySelector('.position-indicator');
-            positionIdicator.textContent = index + 1;
+            const currentPosition = this.getCurrentPositionOfPhoto(originalIndex);
+            const input = element.querySelector('.position-input');
+            input.value = currentPosition + 1;
         });
     }
 
@@ -135,6 +118,14 @@ class RatePhotosViewController extends BaseViewController {
     }
 
     submitRanking() {
+        const allInputsValid = Array.from(document.querySelectorAll('.position-input'))
+            .every(input => this.validateInput(input));
+
+        if (!allInputsValid) {
+            alert('Please correct the invalid rankings before proceeding.');
+            return;
+        }
+
         this.gameController.nextScreen(constants.instruction, {photoRanking: this.currentRanking});
     }
 }
