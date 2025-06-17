@@ -20,6 +20,7 @@ class ConfigViewController extends BaseViewController {
         this.getElementById('choice-questionary-instruction').value = config.choiceQuestionaryInstruction;
         this.getElementById('thanks-message').value = config.thanksMessage;
         this.getElementById('question-highlight').value = config.questionHighlight;
+        this.getElementById('check-photo-selection').checked = config.checkPhotoSelection;
 
         this.setupDynamicLists(config);
 
@@ -83,18 +84,19 @@ class ConfigViewController extends BaseViewController {
             const config = {
                 firstInstruction: this.getElementById('first-instruction').value,
                 buttonCanPressTime: parseInt(this.getElementById('button-can-press-time').value),
+                checkPhotoSelection: this.getElementById('check-photo-selection').checked,
                 selectPhotosInstruction: this.getElementById('select-photos-instruction').value,
                 totalPhotosNumber: parseInt(this.getElementById('total-photos-number').value),
                 selectPhotosNumber: parseInt(this.getElementById('select-photos-number').value),
                 ratePhotosInstruction: this.getElementById('rate-photos-instruction').value,
                 questionaryInstruction: this.getElementById('questionary-instruction').value,
+                choiceQuestionaryInstruction: this.getElementById('choice-questionary-instruction').value,
+                questionHighlight: this.getElementById('question-highlight').value,
                 minChoice: this.getElementById('min-choice-text').value,
                 maxChoice: this.getElementById('max-choice-text').value,
-                choiceQuestionaryInstruction: this.getElementById('choice-questionary-instruction').value,
                 photosToQuestionary: this.dynamicLists.photosToQuestionary.getValues(),
                 intervalValues: this.dynamicLists.intervalValues.getValues(),
                 thanksMessage: this.getElementById('thanks-message').value,
-                questionHighlight: this.getElementById('question-highlight').value,
             };
 
             // Validar todas as listas dinâmicas

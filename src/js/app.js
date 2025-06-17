@@ -15,8 +15,9 @@ class GameController {
             currentScreen: null,
             previousScreen: null,
             questinaryInstructionShown: false,
+            showQuestionary: true,
             participantData: {
-                responses: []
+                responses: [],
             }
         }
 
@@ -38,7 +39,7 @@ class GameController {
         this.gameState.previousScreen = this.gameState.currentScreen;
         this.gameState.currentScreen = screenName;
         if (data) {
-            this.gameState.participantData = {...this.gameState.participantData, ...data};
+            this.gameState.participantData = { ...this.gameState.participantData, ...data };
         }
 
         switch (screenName) {
@@ -55,19 +56,31 @@ class GameController {
                 this.gameState.questinaryInstructionShown = !this.gameState.questinaryInstructionShown;
                 break;
             case constants.selectPhotos:
-                this.selectPhotosView.setupView();
+                if (this.gameSettings.checkPhotoSelection) {
+                    this.selectPhotosView.setupView();
+                } else {
+                    const onePhoto = { id: 1, src: this.imagesPath[0].path, alt: "Foto 1", selected: true };
+                    this.gameState.participantData.photoRanking = [onePhoto,]
+                    this.gameState.participantData.selectedPhotos = [onePhoto,]
+                    this.gameSettings.photosToQuestionary = []
+                    this.nextScreen(constants.instruction);
+                }
                 break;
             case constants.ratePhotos:
                 this.ratePhotosView.setupView();
                 break;
             case constants.questionary:
-                if(this.gameSettings.photosToQuestionary.length > 0) {
+                if (!this.gameSettings.checkPhotoSelection && this.gameState.showQuestionary) {
+                    this.questionaryView = new QuestionaryViewController(this);
+                    const valuesList = [...this.gameSettings.intervalValues];
+                    this.questionaryView.setupView(this.gameState.participantData.photoRanking[0], valuesList);
+                    this.gameState.showQuestionary = false;
+                } else if (this.gameSettings.photosToQuestionary.length > 0 && this.gameSettings.checkPhotoSelection) {
                     this.questionaryView = new QuestionaryViewController(this);
                     const valuesList = [...this.gameSettings.intervalValues];
                     this.questionaryView.setupView(this.gameState.participantData.photoRanking[this.gameSettings.photosToQuestionary[0]], valuesList);
                     this.gameSettings.photosToQuestionary.shift();
-                }
-                else {
+                } else {
                     this.nextScreen(constants.thanks);
                 }
                 break;
@@ -79,7 +92,7 @@ class GameController {
         }
     }
 
-    nextScreen(screenName = null, data = null){
+    nextScreen(screenName = null, data = null) {
         this.navigateToScreen(screenName || constants.home, data);
     }
 
@@ -111,7 +124,7 @@ class GameController {
         this.gameState.participantData.responses.push({ photo, data });
         this.gameState.participantData.options = this.gameSettings.intervalValues;
     }
-    
+
     getParticipantData() {
         return this.gameState.participantData;
     }
@@ -121,15 +134,22 @@ class GameController {
     }
 
     async finalizeGame() {
-        const filePath = await window.electronAPI.saveData(this.gameState.participantData);
-
-        if(filePath) {
-            await window.electronAPI.closeApp();
+        console.log(this.gameState.participantData);
+        try {
+            const result = await window.electronAPI.saveData(this.gameState.participantData);
+            if(result.success) {
+                // await window.electronAPI.closeApp();
+            } else {
+                alert(result.error)
+            }
+        } catch (error) {
+            console.error(`Error finalizing the game: ${error.message}`);
+            throw error;
         }
     }
 }
 
-document.addEventListener('DOMContentLoaded', async() => {
+document.addEventListener('DOMContentLoaded', async () => {
     const app = new GameController();
 });
 

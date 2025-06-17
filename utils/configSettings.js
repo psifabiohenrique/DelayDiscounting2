@@ -6,6 +6,7 @@ const { app } = require('electron');
 const DEFAULT_CONFIG = {
     firstInstruction: "Bem-vindo ao experimento de desconto de atraso",
     buttonCanPressTime: 3,
+    checkPhotoSelection: true,
     selectPhotosInstruction: "Instrução para selecionar fotos",
     totalPhotosNumber: 20,
     selectPhotosNumber: 10,

@@ -61,6 +61,39 @@
     .photos-list-controls {
         display: block
     }
+
+    .config-input-checkbox {
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        margin-bottom: 10px;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        background-color: white;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.2s ease;
+    }
+
+    .config-input-checkbox:checked {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .config-input-checkbox:checked::after {
+        content: '✓';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .config-input-checkbox:hover {
+        border-color: #007bff;        
+    }
 </style>
 
 <div id="config-view">
@@ -96,6 +129,11 @@
 
     <div class="config-section">
         <h3>Configuração da seleção de fotos</h3>
+
+        <div style=" display: flex; flex-direction: row;">
+            <label for="check-photo-selection" class="config-label">Selecionar fotos:</label>
+            <input type="checkbox" name="check-photo-selection" id="check-photo-selection" class="config-input-checkbox">
+        </div>
 
         <!-- Edição da Página de Escolha de Fotos -->
         <div>

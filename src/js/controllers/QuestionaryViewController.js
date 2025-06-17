@@ -9,11 +9,11 @@ class QuestionaryViewController extends BaseViewController {
     }
 
     async setupView(photo, listOfValues) {
-
         this.photo = photo;
+        this.listOfValues = listOfValues;
+
         await this.loadScreen();
         this.config = this.gameController.getGameSettings();
-        this.listOfValues = listOfValues;
         this.getElementById('questionaryPhoto').src = this.photo.src;
         const confirmButton = this.getElementById('confirmChoice');
         confirmButton.addEventListener('click', () => this.handleConfirmChoice());
@@ -25,6 +25,7 @@ class QuestionaryViewController extends BaseViewController {
 
 
     initialize() {
+        console.log(this.listOfValues);
         this.lastValue = this.listOfValues[0];
         const descriptionDiv = this.getElementById('questionaryDescription');
         const questionHighlight = this.getElementById('highlightText');

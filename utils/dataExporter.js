@@ -25,12 +25,16 @@ class DataExporter {
 
         const csvData = this.formatDataForCSV(participantData);
 
-        await fs.writeFile(filePath, csvData, 'utf-8');
-        
-        // Log do caminho onde foi salvo
-        console.warn(`Dados salvos em: ${filePath}`);
-        
-        return filePath;
+        try {
+            await fs.writeFile(filePath, csvData, 'utf-8');
+            
+            // Log do caminho onde foi salvo
+            console.warn(`Dados salvos em: ${filePath}`);
+            return {success: true, filePath:filePath};
+        } catch (error) {
+            console.error(`Erro ao salvar os dados: ${error.message}`);
+            return {success: false, error: error.message};
+        }
     }
 
     formatDataForCSV(data) {
@@ -50,7 +54,7 @@ class DataExporter {
 
         // Process each photo's data
         data.responses.forEach((response, index) => {
-            const photoId = data.selectedPhotos.find(p => p.alt === response.photo)?.id || '';
+            const photoId = data.selectedPhotos.find(p => p.alt === response.photo)?.id || 'Sem foto';
             const rankingPosition = data.photoRanking.findIndex(p => p.alt === response.photo) + 1;
 
             const row = [

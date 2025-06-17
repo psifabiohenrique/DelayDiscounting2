@@ -125,7 +125,8 @@ class RatePhotosViewController extends BaseViewController {
             alert('Please correct the invalid rankings before proceeding.');
             return;
         }
-
+        
+        console.log(this.currentRanking);
         this.gameController.nextScreen(constants.instruction, {photoRanking: this.currentRanking});
     }
 }
