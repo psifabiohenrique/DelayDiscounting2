@@ -18,7 +18,6 @@ class QuestionaryViewController extends BaseViewController {
         const confirmButton = this.getElementById('confirmChoice');
         confirmButton.addEventListener('click', () => this.handleConfirmChoice());
         this.setupProceedButtonTimer(confirmButton);
-
         this.setupSliderValueDisplay();
         this.initialize();
 
@@ -39,21 +38,25 @@ class QuestionaryViewController extends BaseViewController {
         const maxChoice = this.getElementById('maxChoice');
         minChoice.innerHTML = this.config.minChoice || '';
         maxChoice.innerHTML = this.config.maxChoice || '';
+
     }
-
+    
     handleConfirmChoice() {
-
+        
         this.choices.push(this.getElementById('choiceProportion').value);
         this.getElementById('choiceProportion').value = 50;
+        this.getElementById('currentSliderValue').textContent = '50%'
+        
         if(this.listOfValues.length > 0) {
             this.initialize()
         } else {
             this.gameController.setParticipantData(this.photo.alt, this.choices);
             this.gameController.nextScreen(constants.questionary);
         }
-
+        
         const confirmButton = this.getElementById('confirmChoice');
         this.setupProceedButtonTimer(confirmButton);
+
     }
 
     setupSliderValueDisplay() {
