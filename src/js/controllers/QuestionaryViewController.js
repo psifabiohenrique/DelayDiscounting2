@@ -25,7 +25,6 @@ class QuestionaryViewController extends BaseViewController {
 
 
     initialize() {
-        console.log(this.listOfValues);
         this.lastValue = this.listOfValues[0];
         const descriptionDiv = this.getElementById('questionaryDescription');
         const questionHighlight = this.getElementById('highlightText');

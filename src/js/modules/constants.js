@@ -5,7 +5,8 @@ const constants = {
     selectPhotos: 'selectPhotos',
     ratePhotos: 'ratePhotos',
     questionary: 'questionary',
-    thanks: 'thanks'
+    thanks: 'thanks',
+    postInstruction: 'postInstruction',
 }
 
 window.constants = constants;

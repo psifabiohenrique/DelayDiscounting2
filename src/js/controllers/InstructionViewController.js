@@ -4,24 +4,19 @@ class InstructionViewController extends BaseViewController {
         this.config = null;
     }
 
-    async setupView(questinaryInstructionShown = false) {
+    async setupView(instructionText) {
         await this.loadScreen();
         this.config = this.gameController.getGameSettings();
 
-        if (!questinaryInstructionShown) {
-            this.firstInstruction();
-        } else {
-            this.questinaryInstruction();
-        }
-
+        this.showInstruction(instructionText);
+        
     }
 
-    firstInstruction() {
+    showInstruction(instructionText) {
         const instructionDiv = this.getElementById('instruction');
         const proceedButton = this.getElementById('proceed-button');
 
         // Split the instruction text into paragraphs and create <p> elements
-        const instructionText = this.config.firstInstruction || '';
         const paragraphs = instructionText.split('\n').filter(paragraph => paragraph.trim() !== '');
         
         // Clear existing content
@@ -36,36 +31,10 @@ class InstructionViewController extends BaseViewController {
 
         // Setup timer for proceed button
         proceedButton.addEventListener('click', () => {
-            this.gameController.nextScreen(constants.selectPhotos);
+            this.gameController.nextScreen(constants.postInstruction);
         })
         this.setupProceedButtonTimer(proceedButton);
     }
-
-    questinaryInstruction() {
-        const instructionDiv = this.getElementById('instruction');
-        const proceedButton = this.getElementById('proceed-button');
-
-        // Split the instruction text into paragraphs and create <p> elements
-        const instructionText = this.config.questionaryInstruction || '';
-        const paragraphs = instructionText.split('\n').filter(paragraph => paragraph.trim() !== '');
-        
-        // Clear existing content
-        instructionDiv.innerHTML = '';
-        
-        // Create and append <p> elements for each paragraph
-        paragraphs.forEach(paragraph => {
-            const pElement = document.createElement('p');
-            pElement.innerHTML = paragraph.trim();
-            instructionDiv.appendChild(pElement);
-        });
-
-        // Setup timer for proceed button
-        proceedButton.addEventListener('click', () => {
-            this.gameController.nextScreen(constants.questionary);
-        })
-        this.setupProceedButtonTimer(proceedButton);
-    }
-
 }
 
 window.InstructionViewController = InstructionViewController;

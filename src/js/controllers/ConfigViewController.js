@@ -8,19 +8,36 @@ class ConfigViewController extends BaseViewController {
         await this.loadScreen();
         let config = this.gameController.getGameSettings();
 
+        // First instruction
         this.getElementById('first-instruction').value = config.firstInstruction;
         this.getElementById('button-can-press-time').value = config.buttonCanPressTime;
+
+        // Selecton photos
+        this.getElementById('check-photo-selection').checked = config.checkPhotoSelection;
         this.getElementById('select-photos-instruction').value = config.selectPhotosInstruction;
         this.getElementById('total-photos-number').value = config.totalPhotosNumber;
         this.getElementById('select-photos-number').value = config.selectPhotosNumber;
+
+        // Photos rating
         this.getElementById('rate-photos-instruction').value = config.ratePhotosInstruction;
+
+        // Questionary
         this.getElementById('questionary-instruction').value = config.questionaryInstruction;
+        this.getElementById('question-highlight').value = config.questionHighlight;
         this.getElementById('min-choice-text').value = config.minChoice;
         this.getElementById('max-choice-text').value = config.maxChoice;
         this.getElementById('choice-questionary-instruction').value = config.choiceQuestionaryInstruction;
+
+        // Second Questionary
+        this.getElementById('second-questionary-instruction').value = config.secondInstruction;
+        this.getElementById('check-repeat-questionary').checked = config.checkRepeateQuestionary;
+        this.getElementById('choice-second-questionary-instruction').value = config.secondQuestionaryInstruction;
+        this.getElementById('second-questionary-highlight').value = config.secondQuestionHighlight;
+        this.getElementById('second-min-choice-text').value = config.secondMinChoice;
+        this.getElementById('second-max-choice-text').value = config.secondMaxChoice;
+
+        
         this.getElementById('thanks-message').value = config.thanksMessage;
-        this.getElementById('question-highlight').value = config.questionHighlight;
-        this.getElementById('check-photo-selection').checked = config.checkPhotoSelection;
 
         this.setupDynamicLists(config);
 
@@ -82,20 +99,38 @@ class ConfigViewController extends BaseViewController {
     setupEventListeners() {
         this.getElementById('save-button').addEventListener('click', async () => {
             const config = {
+                // First Instruction
                 firstInstruction: this.getElementById('first-instruction').value,
                 buttonCanPressTime: parseInt(this.getElementById('button-can-press-time').value),
+
+                // Photo Selection
                 checkPhotoSelection: this.getElementById('check-photo-selection').checked,
                 selectPhotosInstruction: this.getElementById('select-photos-instruction').value,
                 totalPhotosNumber: parseInt(this.getElementById('total-photos-number').value),
                 selectPhotosNumber: parseInt(this.getElementById('select-photos-number').value),
+
+                //  Photo rating
                 ratePhotosInstruction: this.getElementById('rate-photos-instruction').value,
+
+                // First questionary
                 questionaryInstruction: this.getElementById('questionary-instruction').value,
+                checkRepeateQuestionary: this.getElementById('check-repeat-questionary').checked,
                 choiceQuestionaryInstruction: this.getElementById('choice-questionary-instruction').value,
                 questionHighlight: this.getElementById('question-highlight').value,
                 minChoice: this.getElementById('min-choice-text').value,
                 maxChoice: this.getElementById('max-choice-text').value,
                 photosToQuestionary: this.dynamicLists.photosToQuestionary.getValues(),
                 intervalValues: this.dynamicLists.intervalValues.getValues(),
+
+                // Second questionary
+                secondQuestionaryInstruction: this.getElementById('second-questionary-instruction').value,
+                checkRepeatQuestionary: this.getElementById('check-repeat-questionary').checked,
+                choiceSecondQuestionaryInstruction: this.getElementById('choice-second-questionary-instruction').value,
+                secondQuestionaryHighlight: this.getElementById('second-questionary-highlight').value,
+                secondMinChoice: this.getElementById('second-min-choice-text').value,
+                secondMaxChoice: this.getElementById('second-max-choice-text').value,
+
+                // Thanks message
                 thanksMessage: this.getElementById('thanks-message').value,
             };
 

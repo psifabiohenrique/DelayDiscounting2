@@ -14,8 +14,12 @@ class GameController {
         this.gameState = {
             currentScreen: null,
             previousScreen: null,
-            questinaryInstructionShown: false,
+            questionaryInstructionShown: false,
+            secondQuestionaryInstructionShown: false,
             showQuestionary: true,
+            repeatQuestionary: false,
+            photosToQuestionary: [],
+
             participantData: {
                 responses: [],
             }
@@ -32,6 +36,8 @@ class GameController {
     async initializer() {
         const settings = await window.electronAPI.loadConfig();
         this.setGameSettings(settings);
+        this.gameState.photosToQuestionary = [...this.gameSettings.photosToQuestionary];
+        this.gameState.repeatQuestionary = this.gameSettings.checkRepeateQuestionary;
         this.nextScreen();
     }
 
@@ -52,8 +58,19 @@ class GameController {
                 this.configView.setupView();
                 break;
             case constants.instruction:
-                this.instructionView.setupView(this.gameState.questinaryInstructionShown);
-                this.gameState.questinaryInstructionShown = !this.gameState.questinaryInstructionShown;
+                if (!this.gameState.questionaryInstructionShown && !this.gameState.secondQuestionaryInstructionShown) {
+                    this.instructionView.setupView(this.gameSettings.firstInstruction);
+                    this.gameState.questionaryInstructionShown = true;
+                } else if (this.gameState.questionaryInstructionShown && !this.gameState.secondQuestionaryInstructionShown) {
+                    this.instructionView.setupView(this.gameSettings.questionaryInstruction);
+                    this.gameState.secondQuestionaryInstructionShown = true;
+                } else if (this.gameState.questionaryInstructionShown && this.gameState.secondQuestionaryInstructionShown) {
+                    this.instructionView.setupView(this.gameSettings.secondQuestionaryInstruction);
+                    this.gameState.questionaryInstructionShown = false;
+                    this.gameState.secondQuestionaryInstructionShown = false;
+                } else {
+                    console.warn("Unhandled instruction state in navigateToScreen method.");
+                }
                 break;
             case constants.selectPhotos:
                 if (this.gameSettings.checkPhotoSelection) {
@@ -70,19 +87,40 @@ class GameController {
                 this.ratePhotosView.setupView();
                 break;
             case constants.questionary:
+                // Case for skiping photo selection
                 if (!this.gameSettings.checkPhotoSelection && this.gameState.showQuestionary) {
+                    console.log('Case for skiping photo selection')
                     this.questionaryView = new QuestionaryViewController(this);
                     const valuesList = [...this.gameSettings.intervalValues];
                     this.questionaryView.setupView(this.gameState.participantData.photoRanking[0], valuesList);
                     this.gameState.showQuestionary = false;
-                } else if (this.gameSettings.photosToQuestionary.length > 0 && this.gameSettings.checkPhotoSelection) {
+
+                    // Case for handling photo selection
+                } else if (this.gameState.photosToQuestionary.length > 0 && this.gameSettings.checkPhotoSelection) {
+                    console.log('Case for handling photo selection')
                     this.questionaryView = new QuestionaryViewController(this);
                     const valuesList = [...this.gameSettings.intervalValues];
-                    this.questionaryView.setupView(this.gameState.participantData.photoRanking[this.gameSettings.photosToQuestionary[0]], valuesList);
-                    this.gameSettings.photosToQuestionary.shift();
+                    this.questionaryView.setupView(this.gameState.participantData.photoRanking[this.gameState.photosToQuestionary[0]], valuesList);
+                    this.gameState.photosToQuestionary.shift();
+
+                    // Case for handling repeat questionary
+                } else if (this.gameState.repeatQuestionary) {
+                    this.gameState.photosToQuestionary = [...this.gameSettings.photosToQuestionary];
+                    this.gameState.repeatQuestionary = false;
+
+                    // const valuesList = [...this.gameSettings.intervalValues];
+                    // this.questionaryView.setupView(this.gameState.participantData.photoRanking[this.gameState.photosToQuestionary[0]], valuesList);
+                    // this.gameState.photosToQuestionary.shift();
+                    this.nextScreen(constants.instruction);
+                    console.log(this.gameState.photosToQuestionary)
+                    console.log(this.gameSettings.photosToQuestionary)
+                    console.log("Case for handling repeat questionary")
+
+                    // Case to exit program
                 } else {
                     this.nextScreen(constants.thanks);
                 }
+
                 break;
             case constants.thanks:
                 this.thanksView = new ThanksViewController(this).setupView();
@@ -93,7 +131,24 @@ class GameController {
     }
 
     nextScreen(screenName = null, data = null) {
-        this.navigateToScreen(screenName || constants.home, data);
+        console.log(screenName)
+
+        if (screenName === constants.postInstruction) {
+            // Select Photos
+            if (this.gameState.questionaryInstructionShown && !this.gameState.secondQuestionaryInstructionShown) {
+                this.navigateToScreen(constants.selectPhotos, data)
+
+                // First Questionary
+            } else if (this.gameState.questionaryInstructionShown && this.gameState.secondQuestionaryInstructionShown) {
+                this.navigateToScreen(constants.questionary, data)
+
+                // Second Questionary
+            } else if (!this.gameState.questionaryInstructionShown && !this.gameState.secondQuestionaryInstructionShown) {
+                this.navigateToScreen(constants.questionary, data)
+            }
+        } else {
+            this.navigateToScreen(screenName || constants.home, data);
+        }
     }
 
     getGameSettings() {
@@ -134,10 +189,9 @@ class GameController {
     }
 
     async finalizeGame() {
-        console.log(this.gameState.participantData);
         try {
             const result = await window.electronAPI.saveData(this.gameState.participantData);
-            if(result.success) {
+            if (result.success) {
                 // await window.electronAPI.closeApp();
             } else {
                 alert(result.error)

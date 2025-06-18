@@ -4,20 +4,38 @@ const { app } = require('electron');
 
 // Configurações padrão
 const DEFAULT_CONFIG = {
+    // First instruction
     firstInstruction: "Bem-vindo ao experimento de desconto de atraso",
     buttonCanPressTime: 3,
+
+    // Photo selection
     checkPhotoSelection: true,
     selectPhotosInstruction: "Instrução para selecionar fotos",
     totalPhotosNumber: 20,
     selectPhotosNumber: 10,
+
+    // Photo rating
     ratePhotosInstruction: "Instrução para ranquear as fotos",
+
+    // First questionary
     questionaryInstruction: "Instrução para o questionário",
+    checkRepeateQuestionary: true,
     choiceQuestionaryInstruction: "Instrução para completar o questionário com o intervalo {valor}",
     questionHighlight: "O intervalo atual é {valor}",
     minChoice: "Escolha mínima",
     maxChoice: "Escolha máxima",
     photosToQuestionary: [0, 4, 9],
     intervalValues: [1, 2, 3, 4, 5],
+
+    // Second questionary
+    secondQuestionaryInstruction: "Instrução antes do segundo questionário",
+    checkRepeatQuestionary: true,
+    choiceSecondQuestionaryInstruction: "Instrução para a escolha do segundo questionário",
+    secondQuestionaryHighlight: "Destaque do segundo questionário",
+    secondMinChoice: "Escolha mínima do segundo questionário",
+    secondMaxChoice: "Escolha máxima do segundo questionário",
+
+    // Thanks message
     thanksMessage: "Obrigado por participar!",
 };
 
@@ -44,7 +62,7 @@ class ConfigManager {
         const configJson = JSON.stringify(configToSave, null, 2);
         
         await fs.writeFile(this.configFilePath, configJson, 'utf-8');
-        console.log(`Configuração salva em: ${this.configFilePath}`);
+        console.warn(`Configuração salva em: ${this.configFilePath}`);
         
         return configToSave;
     }
@@ -57,14 +75,14 @@ class ConfigManager {
             const configJson = await fs.readFile(this.configFilePath, 'utf-8');
             if (configJson && configJson.trim()) {
                 const parsedConfig = JSON.parse(configJson);
-                console.log(`Configuração carregada de: ${this.configFilePath}`);
+                console.warn(`Configuração carregada de: ${this.configFilePath}`);
                 return parsedConfig;
             } else {
-                console.log('Arquivo de configuração vazio, usando configuração padrão');
+                console.warn('Arquivo de configuração vazio, usando configuração padrão');
                 return await this.saveConfigFile(DEFAULT_CONFIG);
             }
         } catch (error) {
-            console.log('Arquivo de configuração não encontrado, criando com configuração padrão');
+            console.warn('Arquivo de configuração não encontrado, criando com configuração padrão');
             return await this.saveConfigFile(DEFAULT_CONFIG);
         }
     }
