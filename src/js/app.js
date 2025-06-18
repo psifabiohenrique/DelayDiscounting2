@@ -192,7 +192,7 @@ class GameController {
         try {
             const result = await window.electronAPI.saveData(this.gameState.participantData);
             if (result.success) {
-                // await window.electronAPI.closeApp();
+                await window.electronAPI.closeApp();
             } else {
                 alert(result.error)
             }
