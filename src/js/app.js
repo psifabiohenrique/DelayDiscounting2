@@ -37,13 +37,13 @@ class GameController {
         const settings = await window.electronAPI.loadConfig();
         this.setGameSettings(settings);
         this.gameState.photosToQuestionary = [...this.gameSettings.photosToQuestionary];
-        this.gameState.repeatQuestionary = this.gameSettings.checkRepeateQuestionary;
         this.nextScreen();
     }
 
     async navigateToScreen(screenName, data = null) {
         this.gameState.previousScreen = this.gameState.currentScreen;
         this.gameState.currentScreen = screenName;
+
         if (data) {
             this.gameState.participantData = { ...this.gameState.participantData, ...data };
         }
@@ -53,21 +53,18 @@ class GameController {
                 const images = await window.electronAPI.loadImages(this.gameSettings.totalPhotosNumber);
                 this.imagesPath = images.images;
                 this.homeView.setupView();
+                this.gameState.repeatQuestionary = this.gameSettings.checkRepeateQuestionary;
                 break;
             case constants.config:
                 this.configView.setupView();
                 break;
             case constants.instruction:
-                if (!this.gameState.questionaryInstructionShown && !this.gameState.secondQuestionaryInstructionShown) {
+                if (this.gameState.previousScreen === constants.home) {
                     this.instructionView.setupView(this.gameSettings.firstInstruction);
-                    this.gameState.questionaryInstructionShown = true;
-                } else if (this.gameState.questionaryInstructionShown && !this.gameState.secondQuestionaryInstructionShown) {
+                } else if (this.gameState.previousScreen === constants.ratePhotos|| this.gameState.previousScreen === constants.selectPhotos) {
                     this.instructionView.setupView(this.gameSettings.questionaryInstruction);
-                    this.gameState.secondQuestionaryInstructionShown = true;
-                } else if (this.gameState.questionaryInstructionShown && this.gameState.secondQuestionaryInstructionShown) {
+                } else if (this.gameState.previousScreen === constants.questionary) {
                     this.instructionView.setupView(this.gameSettings.secondQuestionaryInstruction);
-                    this.gameState.questionaryInstructionShown = false;
-                    this.gameState.secondQuestionaryInstructionShown = false;
                 } else {
                     console.warn("Unhandled instruction state in navigateToScreen method.");
                 }
@@ -89,7 +86,6 @@ class GameController {
             case constants.questionary:
                 // Case for skiping photo selection
                 if (!this.gameSettings.checkPhotoSelection && this.gameState.showQuestionary) {
-                    console.log('Case for skiping photo selection')
                     this.questionaryView = new QuestionaryViewController(this);
                     const valuesList = [...this.gameSettings.intervalValues];
                     this.questionaryView.setupView(this.gameState.participantData.photoRanking[0], valuesList);
@@ -97,7 +93,6 @@ class GameController {
 
                     // Case for handling photo selection
                 } else if (this.gameState.photosToQuestionary.length > 0 && this.gameSettings.checkPhotoSelection) {
-                    console.log('Case for handling photo selection')
                     this.questionaryView = new QuestionaryViewController(this);
                     const valuesList = [...this.gameSettings.intervalValues];
                     this.questionaryView.setupView(this.gameState.participantData.photoRanking[this.gameState.photosToQuestionary[0]], valuesList);
@@ -108,13 +103,7 @@ class GameController {
                     this.gameState.photosToQuestionary = [...this.gameSettings.photosToQuestionary];
                     this.gameState.repeatQuestionary = false;
 
-                    // const valuesList = [...this.gameSettings.intervalValues];
-                    // this.questionaryView.setupView(this.gameState.participantData.photoRanking[this.gameState.photosToQuestionary[0]], valuesList);
-                    // this.gameState.photosToQuestionary.shift();
                     this.nextScreen(constants.instruction);
-                    console.log(this.gameState.photosToQuestionary)
-                    console.log(this.gameSettings.photosToQuestionary)
-                    console.log("Case for handling repeat questionary")
 
                     // Case to exit program
                 } else {
@@ -131,19 +120,18 @@ class GameController {
     }
 
     nextScreen(screenName = null, data = null) {
-        console.log(screenName)
 
         if (screenName === constants.postInstruction) {
             // Select Photos
-            if (this.gameState.questionaryInstructionShown && !this.gameState.secondQuestionaryInstructionShown) {
+            if (this.gameState.previousScreen === constants.home) {
                 this.navigateToScreen(constants.selectPhotos, data)
 
                 // First Questionary
-            } else if (this.gameState.questionaryInstructionShown && this.gameState.secondQuestionaryInstructionShown) {
+            } else if (this.gameState.previousScreen === constants.ratePhotos || this.gameState.previousScreen === constants.selectPhotos) {
                 this.navigateToScreen(constants.questionary, data)
 
                 // Second Questionary
-            } else if (!this.gameState.questionaryInstructionShown && !this.gameState.secondQuestionaryInstructionShown) {
+            } else if (this.gameState.previousScreen === constants.questionary) {
                 this.navigateToScreen(constants.questionary, data)
             }
         } else {
