@@ -29,10 +29,10 @@ class ConfigViewController extends BaseViewController {
         this.getElementById('choice-questionary-instruction').value = config.choiceQuestionaryInstruction;
 
         // Second Questionary
-        this.getElementById('second-questionary-instruction').value = config.secondInstruction;
+        this.getElementById('second-questionary-instruction').value = config.secondQuestionaryInstruction;
         this.getElementById('check-repeat-questionary').checked = config.checkRepeateQuestionary;
         this.getElementById('choice-second-questionary-instruction').value = config.secondQuestionaryInstruction;
-        this.getElementById('second-questionary-highlight').value = config.secondQuestionHighlight;
+        this.getElementById('second-questionary-highlight').value = config.secondQuestionaryHighlight;
         this.getElementById('second-min-choice-text').value = config.secondMinChoice;
         this.getElementById('second-max-choice-text').value = config.secondMaxChoice;
 
