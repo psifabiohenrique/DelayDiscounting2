@@ -14,7 +14,12 @@ class QuestionaryViewController extends BaseViewController {
 
         await this.loadScreen();
         this.config = this.gameController.getGameSettings();
-        this.getElementById('questionaryPhoto').src = this.photo.src;
+
+        if(this.photo.src) {
+            this.getElementById('questionaryPhoto').src = this.photo.src;
+        } else {
+            this.getElementById('questionaryPhoto').parentElement.style.display = 'none';
+        }
         const confirmButton = this.getElementById('confirmChoice');
         confirmButton.addEventListener('click', () => this.handleConfirmChoice());
         this.setupProceedButtonTimer(confirmButton);

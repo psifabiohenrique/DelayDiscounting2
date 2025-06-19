@@ -73,7 +73,13 @@ class GameController {
                 if (this.gameSettings.checkPhotoSelection) {
                     this.selectPhotosView.setupView();
                 } else {
-                    const onePhoto = { id: 1, src: this.imagesPath[0].path, alt: "Foto 1", selected: true };
+                    let onePhoto = {};
+                    try {
+                        onePhoto = { id: 1, src: this.imagesPath[0].path, alt: "Foto 1", selected: true };
+                    } catch (error) {
+                        onePhoto = { id: 1, alt: "Foto 1", selected: true };
+                        console.warn('Error setting up photo selection:', error);
+                    }
                     this.gameState.participantData.photoRanking = [onePhoto,]
                     this.gameState.participantData.selectedPhotos = [onePhoto,]
                     this.gameSettings.photosToQuestionary = []
