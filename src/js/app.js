@@ -102,6 +102,7 @@ class GameController {
                 } else if (this.gameState.repeatQuestionary) {
                     this.gameState.photosToQuestionary = [...this.gameSettings.photosToQuestionary];
                     this.gameState.repeatQuestionary = false;
+                    this.gameState.showQuestionary = true;
 
                     this.nextScreen(constants.instruction);
 
