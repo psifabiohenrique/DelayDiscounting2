@@ -16,6 +16,7 @@ class GameController {
             previousScreen: null,
             questionaryInstructionShown: false,
             secondQuestionaryInstructionShown: false,
+            isSecondQuestionary: false,
             showQuestionary: true,
             repeatQuestionary: false,
             photosToQuestionary: [],
@@ -94,18 +95,19 @@ class GameController {
                 if (!this.gameSettings.checkPhotoSelection && this.gameState.showQuestionary) {
                     this.questionaryView = new QuestionaryViewController(this);
                     const valuesList = [...this.gameSettings.intervalValues];
-                    this.questionaryView.setupView(this.gameState.participantData.photoRanking[0], valuesList);
+                    this.questionaryView.setupView(this.gameState.participantData.photoRanking[0], valuesList, this.gameState.isSecondQuestionary);
                     this.gameState.showQuestionary = false;
 
                     // Case for handling photo selection
                 } else if (this.gameState.photosToQuestionary.length > 0 && this.gameSettings.checkPhotoSelection) {
                     this.questionaryView = new QuestionaryViewController(this);
                     const valuesList = [...this.gameSettings.intervalValues];
-                    this.questionaryView.setupView(this.gameState.participantData.photoRanking[this.gameState.photosToQuestionary[0]], valuesList);
+                    this.questionaryView.setupView(this.gameState.participantData.photoRanking[this.gameState.photosToQuestionary[0]], valuesList, this.gameState.isSecondQuestionary);
                     this.gameState.photosToQuestionary.shift();
 
                     // Case for handling repeat questionary
                 } else if (this.gameState.repeatQuestionary) {
+                    this.gameState.isSecondQuestionary = true;
                     this.gameState.photosToQuestionary = [...this.gameSettings.photosToQuestionary];
                     this.gameState.repeatQuestionary = false;
                     this.gameState.showQuestionary = true;

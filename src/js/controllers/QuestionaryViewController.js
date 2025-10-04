@@ -8,14 +8,15 @@ class QuestionaryViewController extends BaseViewController {
         this.photo = null;
     }
 
-    async setupView(photo, listOfValues) {
+    async setupView(photo, listOfValues, isSecondQuestionary = false) {
         this.photo = photo;
         this.listOfValues = listOfValues;
+        this.isSecondQuestionary = isSecondQuestionary
 
         await this.loadScreen();
         this.config = this.gameController.getGameSettings();
 
-        if(this.photo.src) {
+        if (this.photo.src) {
             this.getElementById('questionaryPhoto').src = this.photo.src;
         } else {
             this.getElementById('questionaryPhoto').parentElement.style.display = 'none';
@@ -34,7 +35,7 @@ class QuestionaryViewController extends BaseViewController {
         const descriptionDiv = this.getElementById('questionaryDescription');
         const questionHighlight = this.getElementById('highlightText');
         questionHighlight.innerHTML = this.config.questionHighlight.replace('{valor}', this.lastValue);
-        const instructionText = this.config.choiceQuestionaryInstruction.replace('{valor}', this.lastValue);
+        const instructionText = this.isSecondQuestionary ? this.config.choiceSecondQuestionaryInstruction.replace('{valor}', this.lastValue) : this.config.choiceQuestionaryInstruction.replace('{valor}', this.lastValue);
         const paragraphs = instructionText.split('\n').filter(p => p.trim() !== '');
         descriptionDiv.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
         this.listOfValues.shift();
@@ -45,20 +46,20 @@ class QuestionaryViewController extends BaseViewController {
         maxChoice.innerHTML = this.config.maxChoice || '';
 
     }
-    
+
     handleConfirmChoice() {
-        
+
         this.choices.push(this.getElementById('choiceProportion').value);
         this.getElementById('choiceProportion').value = 50;
         this.getElementById('currentSliderValue').textContent = '50%'
-        
-        if(this.listOfValues.length > 0) {
+
+        if (this.listOfValues.length > 0) {
             this.initialize()
         } else {
             this.gameController.setParticipantData(this.photo.alt, this.choices);
             this.gameController.nextScreen(constants.questionary);
         }
-        
+
         const confirmButton = this.getElementById('confirmChoice');
         this.setupProceedButtonTimer(confirmButton);
 
@@ -67,11 +68,11 @@ class QuestionaryViewController extends BaseViewController {
     setupSliderValueDisplay() {
         const slider = this.getElementById('choiceProportion');
         const valueDisplay = this.getElementById('currentSliderValue');
-        
+
         slider.addEventListener('input', (event) => {
             valueDisplay.textContent = `${event.target.value}%`;
         });
-        
+
         slider.addEventListener('change', (event) => {
             valueDisplay.textContent = `${event.target.value}%`;
         });
