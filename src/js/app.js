@@ -45,9 +45,6 @@ class GameController {
     }
 
     async navigateToScreen(screenName, data = null) {
-        console.log(this.gameState)
-
-
         this.gameState.previousScreen = this.gameState.currentScreen;
         this.gameState.currentScreen = screenName;
 
@@ -178,7 +175,7 @@ class GameController {
         this.gameState.thirdQuestionary = this.gameSettings.abaFormat;
         this.gameState.photosToQuestionary = [...this.gameSettings.photosToQuestionary];
 
-        
+
         this.gameState.currentRound = 1;
         if(this.gameSettings.abaFormat) {
             this.gameState.roundsSequence = ['A', 'B', 'A']
@@ -209,7 +206,11 @@ class GameController {
     }
 
     setParticipantData(photo, data) {
-        this.gameState.participantData.responses.push({ photo, data });
+        this.gameState.participantData.responses.push({ 
+            condition: this.gameState.roundsSequence[this.gameState.currentRound - 1],
+            photo,
+            data
+        });
         this.gameState.participantData.options = this.gameSettings.intervalValues;
     }
 

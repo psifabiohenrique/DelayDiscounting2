@@ -44,6 +44,7 @@ class DataExporter {
         const headers = [
             'participant_id',
             'age',
+            'condition',
             'photo_id',
             'photo_name',
             'ranking_position',
@@ -60,6 +61,7 @@ class DataExporter {
             const row = [
                 data.participantId,
                 data.ageElement,
+                response.condition,
                 photoId,
                 response.photo,
                 rankingPosition,
