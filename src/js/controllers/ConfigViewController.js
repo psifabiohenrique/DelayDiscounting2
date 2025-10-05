@@ -27,11 +27,12 @@ class ConfigViewController extends BaseViewController {
         this.getElementById('min-choice-text').value = config.minChoice;
         this.getElementById('max-choice-text').value = config.maxChoice;
         this.getElementById('choice-questionary-instruction').value = config.choiceQuestionaryInstruction;
+        this.getElementById('aba-format').checked = config.abaFormat;
 
         // Second Questionary
         this.getElementById('second-questionary-instruction').value = config.secondQuestionaryInstruction;
         this.getElementById('check-repeat-questionary').checked = config.checkRepeateQuestionary;
-        this.getElementById('choice-second-questionary-instruction').value = config.secondQuestionaryInstruction;
+        this.getElementById('choice-second-questionary-instruction').value = config.choiceSecondQuestionaryInstruction;
         this.getElementById('second-questionary-highlight').value = config.secondQuestionaryHighlight;
         this.getElementById('second-min-choice-text').value = config.secondMinChoice;
         this.getElementById('second-max-choice-text').value = config.secondMaxChoice;
@@ -121,6 +122,7 @@ class ConfigViewController extends BaseViewController {
                 maxChoice: this.getElementById('max-choice-text').value,
                 photosToQuestionary: this.dynamicLists.photosToQuestionary.getValues(),
                 intervalValues: this.dynamicLists.intervalValues.getValues(),
+                abaFormat: this.getElementById('aba-format').checked,
 
                 // Second questionary
                 secondQuestionaryInstruction: this.getElementById('second-questionary-instruction').value,

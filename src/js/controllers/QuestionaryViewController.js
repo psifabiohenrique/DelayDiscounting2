@@ -35,7 +35,7 @@ class QuestionaryViewController extends BaseViewController {
         const descriptionDiv = this.getElementById('questionaryDescription');
         const questionHighlight = this.getElementById('highlightText');
         questionHighlight.innerHTML = this.config.questionHighlight.replace('{valor}', this.lastValue);
-        const instructionText = this.isSecondQuestionary ? this.config.choiceSecondQuestionaryInstruction.replace('{valor}', this.lastValue) : this.config.choiceQuestionaryInstruction.replace('{valor}', this.lastValue);
+        const instructionText = this.isSecondQuestionary ? this.config.secondQuestionaryInstruction.replace('{valor}', this.lastValue) : this.config.choiceQuestionaryInstruction.replace('{valor}', this.lastValue);
         const paragraphs = instructionText.split('\n').filter(p => p.trim() !== '');
         descriptionDiv.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
         this.listOfValues.shift();

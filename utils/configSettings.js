@@ -26,6 +26,7 @@ const DEFAULT_CONFIG = {
     maxChoice: "Escolha máxima",
     photosToQuestionary: [0, 4, 9],
     intervalValues: ["1 dia", "1 semana", "1 mês", "3 meses", "6 meses"],
+    abaFormat: false,
 
     // Second questionary
     secondQuestionaryInstruction: "Instrução antes do segundo questionário",

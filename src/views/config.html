@@ -257,22 +257,30 @@
                 <small class="help-text">Adicione os valores de intervalo que serão usados no questionário</small>
             </div>
         </div>
+
+        <div style=" display: flex; flex-direction: row;">
+            <label for="aba-format" class="config-label">Formato A - B - A: </label>
+            <input type="checkbox" name="aba-format" id="aba-format" class="config-input-checkbox">
+        </div>
+
+        <div style=" display: flex; flex-direction: row;">
+            <label for="check-repeat-questionary" class="config-label">Formato A - B </label>
+            <input type="checkbox" name="check-repeat-questionary" id="check-repeat-questionary" class="config-input-checkbox">
+        </div>
+
+        <small class="help-text">Deixe ambos formatos (A - B - A e A - B) desmarcados para o formato somente A</small>
     </div>
 
 
     <div class="config-section">
         <h3>Configuração da tela do segundo questionário</h3>
         
-        <div style=" display: flex; flex-direction: row;">
-            <label for="check-repeat-questionary" class="config-label">Repetir questionário? </label>
-            <input type="checkbox" name="check-repeat-questionary" id="check-repeat-questionary" class="config-input-checkbox">
-        </div>
         
         <div>
-            <label for="second-questionary-instruction" class="config-label">Instrução antes do segundo questionário:</label>
+            <label for="choice-second-questionary-instruction" class="config-label">Instrução antes do segundo questionário:</label>
             <textarea 
-                name="second-questionary-instruction" 
-                id="second-questionary-instruction" 
+                name="choice-second-questionary-instruction" 
+                id="choice-second-questionary-instruction" 
                 rows="8"
                 placeholder="Digite aqui o texto da primeira instrução"
                 class="config-input"
@@ -280,10 +288,10 @@
         </div>
 
         <div>
-            <label for="choice-second-questionary-instruction" class="config-label">Instrução do segundo questionário (Utilize {valor} para onde deve ser inserido o valor avaliado):</label>
+            <label for="second-questionary-instruction" class="config-label">Instrução do segundo questionário (Utilize {valor} para onde deve ser inserido o valor avaliado):</label>
             <textarea 
-                name="choice-second-questionary-instruction"
-                id="choice-second-questionary-instruction"
+                name="second-questionary-instruction"
+                id="second-questionary-instruction"
                 rows="8"
                 placeholder="Digite aqui o texto da primeira instrução"
                 class="config-input"
